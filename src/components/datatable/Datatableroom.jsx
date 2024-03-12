@@ -7,26 +7,26 @@ import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { getRowIdFromRowModel } from "@mui/x-data-grid/hooks/features/rows/gridRowsUtils";
 
-const Datatable = ({columns}) => {
+const Datatableroom = ({columns}) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  const [list, setList] = useState([]);
   const [Listroom, setListroom] = useState([]);
   const { data, loading, error } = useFetch(`/${path}`);
 
-  useEffect(() => {
-    loadHotels();
-  }, []);
   
-  const loadHotels=async()=>{
-    const result=await axios.get("http://localhost:9090/Hotel/getAllHotels")
-    setList(result.data);
+  useEffect(() => {
+    loadRooms();
+  }, []);
+
+  const loadRooms=async()=>{
+    const result=await axios.get("http://localhost:9090/Room/getAllRooms")
+    setListroom(result.data);
   }
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:9090/Hotel/deleteHotel/${id}`);
-      setList(list.filter((item) => item.id_Hotel !== id));
+      await axios.delete(`http://localhost:9090/Hotel/deleteRoom/${id}`);
+      setListroom(Listroom.filter((item) => item.ID_Room !== id));
     } catch (err) {}
   };
 
@@ -44,9 +44,9 @@ const Datatable = ({columns}) => {
             
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id_Hotel)}
+              onClick={() => handleDelete(params.row.ID_Room)}
             >
-              Delete 
+              Delete room
             </div>
             
           </div>
@@ -64,15 +64,15 @@ const Datatable = ({columns}) => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={list}
+        rows={Listroom}
         columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
-        getRowId={(row) => row.id_Hotel}
+        getRowId={(row) => row.ID_Room}
       />
     </div>
   );
 };
 
-export default Datatable;
+export default Datatableroom;
