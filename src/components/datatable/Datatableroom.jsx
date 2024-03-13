@@ -25,7 +25,7 @@ const Datatableroom = ({columns}) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:9090/Hotel/deleteRoom/${id}`);
+      await axios.delete(`http://localhost:9090/Room/deleteRoom/${id}`);
       setListroom(Listroom.filter((item) => item.ID_Room !== id));
     } catch (err) {}
   };
